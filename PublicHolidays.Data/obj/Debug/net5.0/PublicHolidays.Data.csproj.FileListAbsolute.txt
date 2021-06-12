@@ -1,0 +1,15 @@
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.csproj.AssemblyReference.cache
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.AssemblyInfoInputs.cache
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.AssemblyInfo.cs
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.csproj.CoreCompileInputs.cache
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\PublicHolidays.Data.deps.json
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\PublicHolidays.Data.runtimeconfig.json
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\PublicHolidays.Data.runtimeconfig.dev.json
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\PublicHolidays.Data.dll
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\ref\PublicHolidays.Data.dll
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\bin\Debug\net5.0\PublicHolidays.Data.pdb
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.dll
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\ref\PublicHolidays.Data.dll
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.pdb
+C:\Users\Andy\WORK\NET\PublicHolidays\PublicHolidays.Data\obj\Debug\net5.0\PublicHolidays.Data.genruntimeconfig.cache
