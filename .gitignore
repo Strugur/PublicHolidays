@@ -1,4 +1,9 @@
 PublicHolidaysConsole/
 .vs/
 .vscode/
-obj/
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
