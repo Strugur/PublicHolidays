@@ -44,8 +44,9 @@ namespace PublicHolidays.Api.Controllers
                 return JsonConvert.SerializeObject(err);
             }
 
-            
-            return JsonConvert.SerializeObject(dtoFromholidayService.Payload);
+            var holidays = dtoFromholidayService.Payload
+                .GroupBy(h => h.Date.Month);
+            return JsonConvert.SerializeObject(holidays);
            
         }
         
