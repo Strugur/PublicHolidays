@@ -7,22 +7,26 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using PublicHolidays.Services.Dtos;
 using PublicHolidays.Services.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace PublicHolidays.Services
 {
     public class HolidayService
     {
+        private readonly ILogger<HolidayService> _logger;
         private readonly PublicHolidaysContext _dbContext;
         private readonly IExternalResource _externalResource;
         private readonly CountryService _countryService;
         public HolidayService(
             PublicHolidaysContext dbContext,
             IExternalResource externalResource,
-            CountryService countryService)
+            CountryService countryService,
+            ILogger<HolidayService> logger)
         {
             _dbContext = dbContext;
             _externalResource = externalResource;
             _countryService = countryService;
+            _logger = logger;
         }
 
         public async Task<HolidayListDto> GetListForYear(int year, string countryCode)
@@ -140,14 +144,36 @@ namespace PublicHolidays.Services
                 .Where(h => h.Date.Year == year)
                 .Select(h => h.Date.DayOfWeek).ToList();
 
+            if (holidaySortedDaysOfWeek.Count == 0)
+            {
+                // _logger.LogInformation($"holidaySortedDaysOfWeek from db is empty");
 
-            var freeDaysByDayOfWeek = HolidayHelper.AddWeekends(holidaySortedDaysOfWeek);
+                var fromExternalResource = await _externalResource.GetHolidaysForYear(year, countryCode);
+                // _logger.LogInformation($"holidaysForYear from external resource ={fromExternalResource} ");
+
+                if (!string.IsNullOrEmpty(fromExternalResource.Error))
+                {
+                    return new GetMaxFreeDaysInARowDto() { Error = fromExternalResource.Error };
+                }
+                await SaveHolidays(fromExternalResource.Payload, country.Id);
+            }
+
+            // _logger.LogInformation($"holidaySortedDaysOfWeek from db ={holidaySortedDaysOfWeek} ");
+
+            var holidaySortedDaysOfWeek2 = _dbContext.Holidays
+                .Where(h => h.CountryId == country.Id)
+                .Where(h => h.Date.Year == year)
+                .Select(h => h.Date.DayOfWeek).ToList();
+
+            var freeDaysByDayOfWeek = HolidayHelper.AddWeekends(holidaySortedDaysOfWeek2);
 
             // find max count of free days 
-
-            return new GetMaxFreeDaysInARowDto() 
-            { 
-                MaxFreeDaysInARow = freeDaysByDayOfWeek.Count()
+            var maxFreeDays = HolidayHelper.GetMaxFreeDays(freeDaysByDayOfWeek);
+            return new GetMaxFreeDaysInARowDto()
+            {
+                Days = holidaySortedDaysOfWeek,
+                Days2 = freeDaysByDayOfWeek,
+                MaxFreeDaysInARow = maxFreeDays
             };
         }
 

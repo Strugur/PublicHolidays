@@ -67,7 +67,11 @@ namespace PublicHolidays.Api.Controllers
             }
 
             
-            return JsonConvert.SerializeObject(dtoFromholidayService);
+            return JsonConvert.SerializeObject(new MaxFreeDaysInARowResponse()
+            {
+                maxFreeDaysInARow = dtoFromholidayService.MaxFreeDaysInARow
+            });
+            // return JsonConvert.SerializeObject(dtoFromholidayService);
 
             
         } 
