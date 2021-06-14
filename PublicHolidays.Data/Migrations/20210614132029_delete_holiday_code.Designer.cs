@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PublicHolidays.Data;
 
 namespace PublicHolidays.Data.Migrations
 {
     [DbContext(typeof(PublicHolidaysContext))]
-    partial class PublicHolidaysContextModelSnapshot : ModelSnapshot
+    [Migration("20210614132029_delete_holiday_code")]
+    partial class delete_holiday_code
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

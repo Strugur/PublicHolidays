@@ -8,8 +8,6 @@ namespace PublicHolidays.Data.Models
     public class Holiday
     {
         public int Id { get; set; }
-
-        public string Code { get; set; }
         public virtual IEnumerable<HolidayName> Names { get; set; }
         [Required]
         public int DateId { get; set; }
