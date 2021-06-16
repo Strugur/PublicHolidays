@@ -44,7 +44,7 @@ namespace PublicHolidays.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     FromDateId = table.Column<int>(type: "int", nullable: true),
                     ToDateId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -71,10 +71,9 @@ namespace PublicHolidays.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateId = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +83,7 @@ namespace PublicHolidays.Data.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Holidays_Date_DateId",
                         column: x => x.DateId,
@@ -99,7 +98,7 @@ namespace PublicHolidays.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -113,6 +112,27 @@ namespace PublicHolidays.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "HolidayName",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Lang = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HolidayId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HolidayName", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HolidayName_Holidays_HolidayId",
+                        column: x => x.HolidayId,
+                        principalTable: "Holidays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_FromDateId",
                 table: "Countries",
@@ -122,6 +142,11 @@ namespace PublicHolidays.Data.Migrations
                 name: "IX_Countries_ToDateId",
                 table: "Countries",
                 column: "ToDateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HolidayName_HolidayId",
+                table: "HolidayName",
+                column: "HolidayId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Holidays_CountryId",
@@ -142,16 +167,19 @@ namespace PublicHolidays.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Holidays");
+                name: "HolidayName");
 
             migrationBuilder.DropTable(
                 name: "Regions");
 
             migrationBuilder.DropTable(
-                name: "Date");
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "Date");
 
             migrationBuilder.DropTable(
                 name: "SupportedDate");

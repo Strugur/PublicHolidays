@@ -36,8 +36,10 @@ namespace PublicHolidays.Api
             services.AddScoped<IExternalResource,EnricoResource>();
             services.AddScoped<HolidayService>();
             services.AddScoped<CountryService>();
+            // services.AddDbContext<PublicHolidaysContext>(options
+            //     => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysConnection")));
             services.AddDbContext<PublicHolidaysContext>(options
-                => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysConnection")));
+                => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysRemoteConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -10,8 +10,8 @@ using PublicHolidays.Data;
 namespace PublicHolidays.Data.Migrations
 {
     [DbContext(typeof(PublicHolidaysContext))]
-    [Migration("20210610162822_add_holiday_type_name")]
-    partial class add_holiday_type_name
+    [Migration("20210615162114_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,7 +29,9 @@ namespace PublicHolidays.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<int?>("FromDateId")
                         .HasColumnType("int");
@@ -80,10 +82,7 @@ namespace PublicHolidays.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CountryId")
+                    b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<int>("DateId")
@@ -132,7 +131,9 @@ namespace PublicHolidays.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
@@ -184,7 +185,9 @@ namespace PublicHolidays.Data.Migrations
                 {
                     b.HasOne("PublicHolidays.Data.Models.Country", null)
                         .WithMany("Holidays")
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PublicHolidays.Data.Models.Date", "Date")
                         .WithMany()
