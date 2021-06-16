@@ -132,11 +132,11 @@ namespace PublicHolidays.Services
 
             if (country == null)
             {
-                return new GetMaxFreeDaysInARowDto() { Error = $"Country {countryCode} not supported" };
+                return new GetMaxFreeDaysInARowDto() { Error = $"Country {countryCode} is not supported" };
             }
             if (!Enumerable.Range(country.FromDate.Year, country.ToDate.Year).Contains(year))
             {
-                return new GetMaxFreeDaysInARowDto() { Error = $"Year {year} not supported" };
+                return new GetMaxFreeDaysInARowDto() { Error = $"Year {year} is not supported" };
             }
 
             var holidaySortedDaysOfWeek = _dbContext.Holidays

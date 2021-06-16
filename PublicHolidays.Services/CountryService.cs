@@ -67,11 +67,11 @@ namespace PublicHolidays.Services
 
             if (country == null)
             {
-                return new DayStatusDto() { Error = $"Country {countryCode} not supported" };
+                return new DayStatusDto() { Error = $"Country {countryCode} is not supported" };
             }
             if (!Enumerable.Range(country.FromDate.Year, country.ToDate.Year).Contains(requestDateParts[2]))
             {
-                return new DayStatusDto() { Error = $"Year {requestDateParts[2]} not supported" };
+                return new DayStatusDto() { Error = $"Year {requestDateParts[2]} is not supported" };
             }
 
             if (!country.Holidays.Any())
