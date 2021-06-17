@@ -39,7 +39,7 @@ namespace PublicHolidays.Api
             // services.AddDbContext<PublicHolidaysContext>(options
             //     => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysConnection")));
             services.AddDbContext<PublicHolidaysContext>(options
-                => options.UseSqlServer(Configuration.GetConnectionString("PublicHolidaysRemoteConnection")));
+                => options.UseSqlServer(Configuration.GetConnectionString("PublicHolidaysConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
