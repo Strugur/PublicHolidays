@@ -8,6 +8,7 @@ using PublicHolidays.Services;
 using Newtonsoft.Json;
 using PublicHolidays.Api.Contracts.Responses;
 using PublicHolidays.Api.Contracts;
+using Microsoft.AspNetCore.Http;
 
 namespace PublicHolidays.Api.Controllers
 {
@@ -28,26 +29,34 @@ namespace PublicHolidays.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        // [Produces("application/json")]
-        public async Task<string> GetList()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Data.ExternalResources.Country>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetList()
         {
             var dtoFromService =  await _service.GetList();
 
            if(!string.IsNullOrEmpty(dtoFromService.Error)){
-                var err = new ErrorResponse()
+                var errMessage = new ErrorResponse()
                 {
                     error = dtoFromService.Error
                 };
-                return JsonConvert.SerializeObject(err);
+                
+                // return JsonConvert.SerializeObject(err);
+                return BadRequest(errMessage);
             }
 
             
-            return JsonConvert.SerializeObject(dtoFromService.Payload);
+            // return JsonConvert.SerializeObject(dtoFromService.Payload);
+            return Ok(dtoFromService.Payload);
         }
 
         [HttpGet]
         [Route("dayStatus")]
-        public async Task<string> SpecificDayStatus(string country,string date)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DayStatusResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [Produces("application/json")]
+        public async Task<IActionResult> SpecificDayStatus(string country,string date)
         {
             var dtoFromService =   await _service.GetSpecificDayStatus(country,date);   
 
@@ -56,14 +65,20 @@ namespace PublicHolidays.Api.Controllers
                 {
                     error = dtoFromService.Error
                 };
-                return JsonConvert.SerializeObject(err);
+                // return JsonConvert.SerializeObject(err);
+                return BadRequest(err);
             }
 
-            
-            return JsonConvert.SerializeObject(new DayStatusResponse()
+            var dayStatusResponse = new DayStatusResponse()
             {
                 DayStatus = dtoFromService.DayStatus
-            });
+            };
+            // return JsonConvert.SerializeObject(new DayStatusResponse()
+            // {
+            //     DayStatus = dtoFromService.DayStatus
+            // });
+
+            return Ok(dayStatusResponse);
         }
     }
 }

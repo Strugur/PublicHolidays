@@ -32,14 +32,11 @@ namespace PublicHolidays.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddScoped<IExternalResource,EnricoResource>();
             services.AddScoped<HolidayService>();
             services.AddScoped<CountryService>();
-            // services.AddDbContext<PublicHolidaysContext>(options
-            //     => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysConnection")));
             services.AddDbContext<PublicHolidaysContext>(options
-                => options.UseSqlServer(Configuration.GetConnectionString("PublicHolidaysConnection")));
+                => options.UseSqlServer(Configuration.GetConnectionString("PubliHolidaysConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

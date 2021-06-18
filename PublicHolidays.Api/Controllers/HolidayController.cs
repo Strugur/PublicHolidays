@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -31,7 +32,10 @@ namespace PublicHolidays.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        public async Task<string> GetList(int year,string country)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Holiday>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetList(int year,string country)
         {   
             var dtoFromholidayService =  await _holidayService.GetListForYear(year,country);
 
@@ -41,39 +45,38 @@ namespace PublicHolidays.Api.Controllers
                 {
                     error = dtoFromholidayService.Error
                 };
-                return JsonConvert.SerializeObject(err);
+                // return JsonConvert.SerializeObject(err);
+                return BadRequest(err);
             }
 
-            var holidays = dtoFromholidayService.Payload
-                .GroupBy(h => h.Date.Month);
-            return JsonConvert.SerializeObject(holidays);
-           
+            var holidays = dtoFromholidayService.Payload;
+            
+            return Ok(holidays);
         }
         
         [HttpGet]
         [Route("maxFreeDaysInARow")]
-
-        public async Task<string> MaxFreeDaysInARow (string country, int year)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MaxFreeDaysInARowResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [Produces("application/json")]
+        public async Task<IActionResult> MaxFreeDaysInARow (string country, int year)
         {
-
             var dtoFromholidayService =  await _holidayService.GetMaxFreeDaysInARow(country,year);
-
-            // return dtoFromholidayService;
+           
             if(!string.IsNullOrEmpty(dtoFromholidayService.Error)){
                 var err = new ErrorResponse()
                 {
                     error = dtoFromholidayService.Error
                 };
-                return JsonConvert.SerializeObject(err);
+                return BadRequest(err);
             }
 
-            
-            return JsonConvert.SerializeObject(new MaxFreeDaysInARowResponse()
+            var okResponse = new MaxFreeDaysInARowResponse()
             {
                 maxFreeDaysInARow = dtoFromholidayService.MaxFreeDaysInARow
-            });
-            // return JsonConvert.SerializeObject(dtoFromholidayService);
-
+            };
+           
+            return Ok(okResponse);
             
         } 
     }
