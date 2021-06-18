@@ -42,12 +42,9 @@ namespace PublicHolidays.Api.Controllers
                     error = dtoFromService.Error
                 };
                 
-                // return JsonConvert.SerializeObject(err);
                 return BadRequest(errMessage);
             }
-
-            
-            // return JsonConvert.SerializeObject(dtoFromService.Payload);
+       
             return Ok(dtoFromService.Payload);
         }
 
@@ -65,7 +62,6 @@ namespace PublicHolidays.Api.Controllers
                 {
                     error = dtoFromService.Error
                 };
-                // return JsonConvert.SerializeObject(err);
                 return BadRequest(err);
             }
 
@@ -73,10 +69,6 @@ namespace PublicHolidays.Api.Controllers
             {
                 DayStatus = dtoFromService.DayStatus
             };
-            // return JsonConvert.SerializeObject(new DayStatusResponse()
-            // {
-            //     DayStatus = dtoFromService.DayStatus
-            // });
 
             return Ok(dayStatusResponse);
         }

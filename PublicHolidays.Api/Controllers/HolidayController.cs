@@ -39,13 +39,12 @@ namespace PublicHolidays.Api.Controllers
         {   
             var dtoFromholidayService =  await _holidayService.GetListForYear(year,country);
 
-            // return dtoFromholidayService;
             if(!string.IsNullOrEmpty(dtoFromholidayService.Error)){
                 var err = new ErrorResponse()
                 {
                     error = dtoFromholidayService.Error
                 };
-                // return JsonConvert.SerializeObject(err);
+                
                 return BadRequest(err);
             }
 
